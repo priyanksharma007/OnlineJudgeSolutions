@@ -74,15 +74,33 @@ public:
 	}
 };
 
-
 void solve() {
-	long long n;
-	cin >> n;
+    int n;
+	while (cin >> n) {
+		bool flag[3000] = {0};
+		vector<int> arr(n);
+		rep(i, n) {
+			cin >> arr[i];
+		}
 
-	ll ans = (ll)(-1 + sqrt(1 + 8 *n)) / 2 ;
+		for (int i = 0; i < n-1; i++) {
+			int idx = abs(arr[i] - arr[i+1]);
+			if (idx <= n-1) {
+				flag[idx] = true;
+			}
+		}
+
+		bool ans = true;;
+		for (int i = 1; i < n; i++) {
+			if (!flag[i]) {
+				ans = false;
+				break;
+			}
+		}
+
+		cout << (ans ? "Jolly\n" : "Not jolly\n");
+	}
 	
-	cout << ans << endl;
-
 
 
 }
