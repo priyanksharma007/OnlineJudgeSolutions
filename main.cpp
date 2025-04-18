@@ -74,71 +74,34 @@
 		}
 	};
 
-	class Node {
-	public:
-		int val;
-		Node* prev;
-		Node* next;
-		Node() : val(0), next(nullptr), prev(nullptr) {}
-		Node(int x) : val(x), next(nullptr), prev(nullptr) {}
-		Node(int x, Node *prev, Node *next) : val(x), next(next), prev(prev) {}
-	};
-
-
 	void solve() {
-		int s, b;
-		while (cin >> s >> b, s != 0 and b != 0) {
-			// cout << s << " " << b << endl;
-			unordered_map<int, Node*> map;
-			
-			Node* head = new Node(0);
-			Node* curr = head;
+		string s;
 
-			for (int  i = 0; i < s; i++) {
-				Node* node = new Node(i+1);
-				map[i+1] = node;
-
-				curr->next = node;
-				node->prev = curr;
-				curr = node;
+		while (cin >> s) {
+			int n = s.size();
+			vector<int> a;
+			for (int i = 0; i < s.size(); i++) {
+				if (s[i] == 'X') {
+					a.push_back(i);
+				}
 			}
 
-			curr->next = new Node(0);
-			curr = curr->next;
+			int ans = max(a[0]-1, 0);
 
-			for (int i = 0; i < b; i++) {
-				int l, r;
-				cin >> l >> r;
-				Node* left = map[l]->prev;
-				Node* right = map[r]->next;
-				// cout << left->val << " " << right->val << endl;
-				left->next = right;
-				right->prev = left;
-
-				int leftSoldier = left->val;
-				int rightSoldier = right->val;
-
-				// cout << leftSoldier << " " << rightSoldier << endl;
-
-
-				if (leftSoldier == 0) {
-					cout << "* " ;
-				} else {
-					cout << leftSoldier << " ";
-				}
-
-
-				if (rightSoldier == 0) {
-					cout << "*\n" ;
-				} else {
-					cout << rightSoldier << "\n";
-				}
-
-				
-
+			for (int i = 1; i < a.size(); i++) {
+				int last = a[i-1];
+				int curr = a[i];
+				int gap = curr - last - 1;
+				if (gap % 2 == 0) gap--;
+				ans = max(ans, gap / 2);
 			}
-			cout << "-\n";
+
+			ans = max(ans, max(n-1-a.back()-1, 0));
+
+			cout << ans << endl;
 		}
+
+
 
 	}
 
