@@ -75,33 +75,40 @@
 	};
 
 	void solve() {
-		string s;
+		int n;
+		while (cin >> n and n != 0) {
+			vector<string> ans(n, "-");
 
-		while (cin >> s) {
-			int n = s.size();
-			vector<int> a;
-			for (int i = 0; i < s.size(); i++) {
-				if (s[i] == 'X') {
-					a.push_back(i);
+			int idx = -1;
+			for (int i = 0;i  < n; i++) {
+				string  card, word;
+				cin >> card >> word;
+				
+				
+				for (int j = 0; j < (int) word.size(); j++) {
+					idx = idx + 1;
+					
+					idx %= n;
+					// cout << idx << endl;
+
+					if (ans[idx] != "-") {
+						j--;
+						continue;
+					}
 				}
+
+				ans[idx] = card;
 			}
 
-			int ans = max(a[0]-1, 0);
-
-			for (int i = 1; i < a.size(); i++) {
-				int last = a[i-1];
-				int curr = a[i];
-				int gap = curr - last - 1;
-				if (gap % 2 == 0) gap--;
-				ans = max(ans, gap / 2);
+			for (int i = 0; i < ans.size() - 1; i++) {
+				cout << ans[i] << " ";
 			}
+			cout << ans.back() << endl;
+			cout << endl;
 
-			ans = max(ans, max(n-1-a.back()-1, 0));
-
-			cout << ans << endl;
 		}
 
-
+        
 
 	}
 
