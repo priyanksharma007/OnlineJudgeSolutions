@@ -75,32 +75,29 @@
 	};
 
 	void solve() {
-		string s;
+		int n;
+		cin >> n;
 
-		while (cin >> s) {
-			int n = s.size();
-			vector<int> a;
-			for (int i = 0; i < s.size(); i++) {
-				if (s[i] == 'X') {
-					a.push_back(i);
-				}
+		vi a(n);
+		rep(i, n) cin >> a[i];
+
+		int arrow[1000001] = {0};
+		int count = 0;
+
+		for (auto x : a) {
+			if (arrow[x] > 0) {
+				arrow[x] -= 1;
+				arrow[x-1] += 1;
+			} else {
+				arrow[x-1] += 1;
+				count++;
 			}
-
-			int ans = max(a[0]-1, 0);
-
-			for (int i = 1; i < a.size(); i++) {
-				int last = a[i-1];
-				int curr = a[i];
-				int gap = curr - last - 1;
-				if (gap % 2 == 0) gap--;
-				ans = max(ans, gap / 2);
-			}
-
-			ans = max(ans, max(n-1-a.back()-1, 0));
-
-			cout << ans << endl;
 		}
 
+		cout << count << endl;
+
+		
+		
 
 
 	}
