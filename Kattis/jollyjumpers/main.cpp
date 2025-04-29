@@ -83,7 +83,7 @@ void solve() {
 			cin >> arr[i];
 		}
 
-		for (int i = 0; i < n-1; i++) {
+	for (int i = 0; i < n-1; i++) {
 			int idx = abs(arr[i] - arr[i+1]);
 			if (idx <= n-1) {
 				flag[idx] = true;
