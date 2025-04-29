@@ -74,9 +74,54 @@ public:
 	}
 };
 
+void printPhrase(int times, string phrase) {
+	for (int i = 0; i < times; i++) {
+		cout << phrase << " ";
+	}
+}
 
 void solve() {
+	string n;
+	cin >> n;
+
+	string m;
+	cin >> m;
+
+	int zeros = (int) m.size() - 1;
+	if (zeros == 0) {
+		cout << n << endl;
+		return;
+	}
+
+	reverse(all(n));
 	
+	string ans;
+
+	int i = 0;
+	for (; i < zeros; i++) {
+		if (i < n.length()) {
+			ans.push_back(n[i]);
+			continue;
+		}
+
+		ans.push_back('0');
+	}
+
+	ans += '.';
+	if (i < n.length()) {
+		ans += n.substr(i);
+	} else {
+		ans.push_back('0');
+	}
+
+	
+	reverse(all(ans));
+	while (!ans.empty() and ans.back() == '0') ans.pop_back();
+	if (!ans.empty() and ans.back() == '.') ans.pop_back();
+	cout << ans << endl;
+
+
+
 }
 
 int main() {
