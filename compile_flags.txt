@@ -1,0 +1,12 @@
+-DLOCAL
+-std=c++17
+-O2
+-Wall
+-Wextra
+-Wshadow
+-Wconversion
+-Wfloat-equal
+-Wduplicated-cond
+-Wlogical-op
+-Wno-unused-const-variable
+-Wno-sign-conversion
