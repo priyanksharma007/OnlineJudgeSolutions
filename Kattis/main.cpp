@@ -41,40 +41,24 @@ void setIO(string name = "") {
 		freopen((name + ".out").c_str(), "w", stdout);
 	}
 }
-
-int getValue(string card) {
-    char value = card[0];
-    if (value >= '2' and value <= '9') return value - '0';
-    else return 10;
-}
-
 void solve() {
     int n;
-    cin >> n;`
-    cout << n << endl;
+    cin >> n;
+
+    if (n % 2 == 0) {
+        cout << n << " is even" << endl;
+    } else {
+        cout << n << " is odd" << endl;
+    }
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    // int c = 1;
 
+    int t = 1;
+    cin >> t;
     while (t--) {
         solve();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -42,84 +42,64 @@ void setIO(string name = "") {
 	}
 }
 
-class DSU {
-public:
-	vector<int> root;
-	vector<int> size;
-	int cc;
-
-
-	DSU(int n) {
-		root = vector<int>(n);
-		size = vector<int>(n, 1);
-		iota(all(root), 0);
-		cc = n;
-	}
-
-	int get(int x) { return root[x] == x ? x : x = get(root[x]);};
-
-	void unite(int x, int y) {
-		x = get(x);
-		y = get(y);
-		if (x == y) { return;}
-
-		if (size[x] > size[y]) swap(x, y);
-		size[y] += size[x];
-		root[x] = y;
-		cc--;
-	}
-
-	bool sameSet(int x, int y) {
-		return get(x) == get(y);
-	}
-};
-
-string getResult(vector<string> &deck) {
-	vector<string> hand(deck.end() - 25, deck.end());
-	vector<string> pile(deck.begin(), deck.end()-25);
-
-	int y = 0;
-
-	rep(i, 3) {
-		string topCard = pile.back();
-		int x = isdigit(topCard[0]) ? topCard[0] - '0' : 10;
-		y += x;
-		pile.pop_back();
-		for (int j = 0; j < max(0, 10-x) and !pile.empty(); j++) {
-			pile.pop_back();
-		}
-	}
-
-	pile.insert(pile.end(), all(hand));
-	return pile[y-1];
+int getValue(string card) {
+    char value = card[0];
+    if (value >= '2' and value <= '9') return value - '0';
+    else return 10;
 }
 
+string solve() {
+    vector<string> pile;
+    vector<string> hand;
+    for (int i = 0; i < 52; i++) {
+        string card;
+        cin >> card;
+        if (i <= 26) pile.push_back(card);
+        else hand.push_back(card);
+    }
 
-void solve() {
-	int n;
-	cin >> n;
-	cin.ignore();
 
-	for (int i = 0; i < n; i++) {
-		vector<string> deck(52);
-		rep(j, 52) {
-			cin >> deck[j];
-		}
+    int y = 0;
 
-		string res = getResult(deck);
-		cout << "Case " << i+1 << ": " << res << endl;
-	}
 
-	
+    for (int i = 0; i < 3; i++) {
+        string card = pile.back();
+        int x = getValue(card);
+        y += x;
+        pile.pop_back();
+        for (int j = 0; j < 10 - x; j++) {
+            if (!pile.empty()) pile.pop_back();
+        }
+    }
+
+    pile.insert(pile.end(), all(hand));
+
+    return  pile[y - 1];
 }
 
 int main() {
-	setIO(); 
-	// setIO("circlecross"); 
-	int t = 1;
-	// cin >> t;
-	while (t--) {
-		solve();
-	}
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t = 1;
+    cin >> t;
+    int c = 1;
 
-}		
+    while (t--) {
+        string ans = solve();
+        cout << "Case " << c++ << ": " << ans << endl;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
