@@ -2,7 +2,8 @@
 
 # Usage: ./cpush.sh <target_folder> <filename_without_ext>
 # Example: ./cpush.sh UVa 10646
-# Copies main.cpp → Cp/UVa/10646.cpp
+# Example: ./cpush.sh Codeforces 1900A
+# Copies main.cpp → Cp/<target>/<filename>.cpp
 
 TARGET=$1
 NAME=$2
@@ -12,9 +13,18 @@ DEST="$BASE_DIR/$TARGET"
 SRC="$BASE_DIR/main.cpp"
 DEST_FILE="$DEST/$NAME.cpp"
 
+# Allowed folders
+VALID_TARGETS=("kattis" "UVa" "Codeforces")
+
 # Sanity checks
 if [ -z "$TARGET" ] || [ -z "$NAME" ]; then
-    echo "Usage: ./cpush.sh <kattis|UVa> <filename_without_ext>"
+    echo "Usage: ./cpush.sh <kattis|UVa|Codeforces> <filename_without_ext>"
+    exit 1
+fi
+
+# Validate target
+if [[ ! " ${VALID_TARGETS[@]} " =~ " ${TARGET} " ]]; then
+    echo "Error: Invalid target. Allowed: kattis, UVa, Codeforces"
     exit 1
 fi
 
