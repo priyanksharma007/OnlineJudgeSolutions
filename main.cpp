@@ -33,100 +33,37 @@ int dir[] = {0,1,0,-1,0};
 
 string stepDir = "URDL";
 
-
-void setIO(string name = "") {
-	cin.tie(0)->sync_with_stdio(0); // see /general/fast-io
-	if (sz(name)) {
-		freopen((name + ".in").c_str(), "r", stdin); // see /general/input-output
-		freopen((name + ".out").c_str(), "w", stdout);
-	}
-}
-
-class DSU {
-public:
-	vector<int> root;
-	vector<int> size;
-	int cc;
-
-
-	DSU(int n) {
-		root = vector<int>(n);
-		size = vector<int>(n, 1);
-		iota(all(root), 0);
-		cc = n;
-	}
-
-	int get(int x) { return root[x] == x ? x : x = get(root[x]);};
-
-	void unite(int x, int y) {
-		x = get(x);
-		y = get(y);
-		if (x == y) { return;}
-
-		if (size[x] > size[y]) swap(x, y);
-		size[y] += size[x];
-		root[x] = y;
-		cc--;
-	}
-
-	bool sameSet(int x, int y) {
-		return get(x) == get(y);
-	}
-};
-
-
-int n, frontLimit, rearLimit;
-int bitmask = 0;
-int ans = 0;
-int order[12]; // static array instead of vector
-
-bool checkRear(int* order) {
-    int seenFromRear = 1;
-    int maxFromRear = order[n - 1];
-
-    for (int i = n - 2; i >= 0; i--) {
-        if (order[i] > maxFromRear) {
-            seenFromRear++;
-            maxFromRear = order[i];
-            if (seenFromRear > rearLimit) return false;
-        }
-    }
-    return seenFromRear == rearLimit;
-}
-
-void permute(int depth, int seenFromFront, int maxFromFront) {
-    if (seenFromFront > frontLimit) return;
-
-    if (depth == n) {
-        if (seenFromFront == frontLimit && checkRear(order)) {
-            ans++;
-        }
-        return;
-    }
-
-    for (int i = 0; i < n; i++) {
-        if ((1 << i) & bitmask) continue;
-
-        order[depth] = i;
-        bitmask |= (1 << i);
-
-        if (i > maxFromFront) {
-            permute(depth + 1, seenFromFront + 1, i);
-        } else {
-            permute(depth + 1, seenFromFront, maxFromFront);
-        }
-
-        bitmask &= ~(1 << i);
-    }
-}
-
 void solve() {
-    cin >> n >> frontLimit >> rearLimit;
-    bitmask = 0;
-    ans = 0;
+    int n;
 
-    permute(0, 0, -1);
-    cout << ans << '\n';
+    while (cin >> n) {
+        vector<int> flag(n, 0);
+
+
+        int last;
+        cin >> last;
+
+        for (int i = 1; i < n; i++) {
+            int x;
+            cin >> x;
+
+            int diff = abs(x - last);
+            last = x;
+
+            if (diff < n and diff > 0) flag[diff] = 1;
+        }
+
+        bool ans = true;
+        for (int i = 1; i < n; i++) {
+            ans = ans and flag[i];
+        }
+
+
+        cout << (ans ? "Jolly\n" : "Not jolly\n");
+    }
+
+    
+    
 }
 
 int main() {
@@ -134,7 +71,7 @@ int main() {
     cin.tie(nullptr);
 
     int t = 1;
-    cin >> t;
+    // cin >> t;
     while (t--) {
         solve();
     }
