@@ -42,52 +42,78 @@ void setIO(string name = "") {
 	}
 }
 
-int getValue(string card) {
-    char value = card[0];
-    if (value >= '2' and value <= '9') return value - '0';
-    else return 10;
+void radix_sort(vector<int> &a) {
+    int n = (int) a.size();
+
+    int base = 1 << 16;
+    int mask = base - 1;
+
+    vector<int> tmp(n);
+
+    for (int shift = 0; shift < 32; shift += 16) {
+        // counting sort
+
+        vector<int> cnt(base, 0);
+        for (int i = 0; i < n; i++) {
+            int digit = (a[i] >> shift) & mask;
+            cnt[digit]++;
+        }
+
+        // prefix sum
+        for (int i = 1; i < (int) cnt.size(); i++) {
+            cnt[i] += cnt[i-1];
+        }
+
+
+        for (int i = n-1; i  >= 0; i--) {
+            int digit = (a[i] >> shift) & mask;
+            tmp[--cnt[digit]] = a[i];
+        }
+
+        a.swap(tmp);
+
+    }
 }
 
-string solve() {
-    vector<string> pile;
-    vector<string> hand;
-    for (int i = 0; i < 52; i++) {
-        string card;
-        cin >> card;
-        if (i <= 26) pile.push_back(card);
-        else hand.push_back(card);
+void solve() {
+    int n;
+    int a,b,c,x,y;
+    cin >> n >> a >> b >> c >> x >> y;
+
+    // cout << n << " " << a << " " << b << " " << c << " " << x << " " << y << endl;
+
+    vector<int> s(n);
+    s[0] = a;
+    for (int i = 1; i < n; i++) {
+        s[i] = (int) (((ll)s[i-1] * b + a) % c);
     }
 
+    radix_sort(s);
 
-    int y = 0;
 
 
-    for (int i = 0; i < 3; i++) {
-        string card = pile.back();
-        int x = getValue(card);
-        y += x;
-        pile.pop_back();
-        for (int j = 0; j < 10 - x; j++) {
-            if (!pile.empty()) pile.pop_back();
-        }
+
+
+    int v = 0;
+    for (int i = 0; i < n; i++) {
+        v = ((ll)v*x + s[i]) % y;
     }
 
-    pile.insert(pile.end(), all(hand));
+    cout << v << endl;
 
-    return  pile[y - 1];
+
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+    setIO();
     int t = 1;
     cin >> t;
-    int c = 1;
+    // int c = 1;
 
     while (t--) {
-        string ans = solve();
-        cout << "Case " << c++ << ": " << ans << endl;
-
+        solve();
     }
 }
 

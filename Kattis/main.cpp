@@ -41,65 +41,24 @@ void setIO(string name = "") {
 		freopen((name + ".out").c_str(), "w", stdout);
 	}
 }
+void solve() {
+    int n;
+    cin >> n;
 
-int getValue(string card) {
-    char value = card[0];
-    if (value >= '2' and value <= '9') return value - '0';
-    else return 10;
-}
-
-string solve() {
-    vector<string> pile;
-    vector<string> hand;
-    for (int i = 0; i < 52; i++) {
-        string card;
-        cin >> card;
-        if (i <= 26) pile.push_back(card);
-        else hand.push_back(card);
+    if (n % 2 == 0) {
+        cout << n << " is even" << endl;
+    } else {
+        cout << n << " is odd" << endl;
     }
-
-
-    int y = 0;
-
-
-    for (int i = 0; i < 3; i++) {
-        string card = pile.back();
-        int x = getValue(card);
-        y += x;
-        pile.pop_back();
-        for (int j = 0; j < 10 - x; j++) {
-            if (!pile.empty()) pile.pop_back();
-        }
-    }
-
-    pile.insert(pile.end(), all(hand));
-
-    return  pile[y - 1];
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+
     int t = 1;
     cin >> t;
-    int c = 1;
-
     while (t--) {
-        string ans = solve();
-        cout << "Case " << c++ << ": " << ans << endl;
-
+        solve();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
