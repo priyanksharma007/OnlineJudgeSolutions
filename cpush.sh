@@ -14,11 +14,11 @@ SRC="$BASE_DIR/main.cpp"
 DEST_FILE="$DEST/$NAME.cpp"
 
 # Allowed folders
-VALID_TARGETS=("kattis" "UVa" "Codeforces")
+VALID_TARGETS=("Kattis" "UVa" "Codeforces")
 
 # Sanity checks
 if [ -z "$TARGET" ] || [ -z "$NAME" ]; then
-    echo "Usage: ./cpush.sh <kattis|UVa|Codeforces> <filename_without_ext>"
+    echo "Usage: ./cpush.sh <Kattis|UVa|Codeforces> <filename_without_ext>"
     exit 1
 fi
 
